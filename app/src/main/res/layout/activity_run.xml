@@ -24,6 +24,7 @@
         android:layout_marginTop="121dp"
         android:onClick="endRunButton" />
 
+<<<<<<< HEAD
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,4 +47,15 @@
         android:layout_alignTop="@+id/endrunbutton"
         android:layout_toEndOf="@+id/endrunbutton" />
 
+=======
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Talk"
+        android:id="@+id/talkButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp"
+        android:onClick="talk" />
+>>>>>>> origin/master
 </RelativeLayout>
