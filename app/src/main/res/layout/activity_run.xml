@@ -23,4 +23,27 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="121dp"
         android:onClick="endRunButton" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:src="@drawable/previous_button"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="40dp"
+        android:onClick="previousSongButton"
+        android:layout_alignTop="@+id/endrunbutton"
+        android:layout_toStartOf="@+id/endrunbutton" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton3"
+        android:src="@drawable/next_button"
+        android:background="@android:color/transparent"
+        android:onClick="nextSongButton"
+        android:layout_marginStart="40dp"
+        android:layout_alignTop="@+id/endrunbutton"
+        android:layout_toEndOf="@+id/endrunbutton" />
+
 </RelativeLayout>

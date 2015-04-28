@@ -17,4 +17,5 @@
         android:contentDescription="start button"
         android:src="@drawable/start_button"
         android:background="@android:color/transparent"/>
+
 </RelativeLayout>

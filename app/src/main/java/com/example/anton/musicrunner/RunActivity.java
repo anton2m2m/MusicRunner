@@ -29,13 +29,10 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
     private long time;
     private int tempo = 0; //Vilken musiknivå det är
     MediaPlayer mp = new MediaPlayer();
-    int[] slowSongs = new int[] { R.raw.slow1};
-    int[] mediumSongs = new int[] { R.raw.medium1 };
-    int[] fastSongs = new int[] { R.raw.fast1};
-
-    /*    int[] slowSongs = new int[] { R.raw.slow1, R.raw.slow2, R.raw.slow3 };
-    int[] mediumSongs = new int[] { R.raw.medium1, R.raw.medium2, R.raw.medium3 };
-    int[] fastSongs = new int[] { R.raw.fast1, R.raw.fast2, R.raw.fast3 }; */
+    int[] slowSongs = new int[] { R.raw.slow1, R.raw.slow2 };
+    int[] mediumSongs = new int[] { R.raw.medium1, R.raw.medium2 };
+    int[] fastSongs = new int[] { R.raw.fast1, R.raw.fast2 };
+    int currentSong = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +84,111 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+    public void nextSongButton(View V) {
+        nextSong();
+    }
+    public void nextSong() {
+        if (tempo == 1) {
+            if (slowSongs.length == currentSong + 1) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, slowSongs[0]);
+                mp.start();
+                currentSong = 0;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, slowSongs[currentSong + 1]);
+                currentSong++;
+                mp.start();
+            }
+        } else if (tempo == 2) {
+
+            if (mediumSongs.length == currentSong + 1) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, mediumSongs[0]);
+                mp.start();
+                currentSong = 0;
+            } else {
+
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, mediumSongs[currentSong + 1]);
+                currentSong++;
+                mp.start();
+            }
+        } else if (tempo == 3) {
+            if (fastSongs.length == currentSong + 1) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, fastSongs[0]);
+                mp.start();
+                currentSong = 0;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, fastSongs[currentSong + 1]);
+                currentSong++;
+                mp.start();
+            }
+        }
+    }
+
+    public void previousSongButton(View V) {
+        previousSong();
+    }
+    public void previousSong() {
+        if (tempo == 1) {
+            if (currentSong == 0) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, slowSongs[0]);
+                mp.start();
+                currentSong = slowSongs.length - 1;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, slowSongs[currentSong - 1]);
+                currentSong--;
+                mp.start();
+            }
+        } else if (tempo == 2) {
+
+            if (currentSong == 0) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, mediumSongs[0]);
+                mp.start();
+                currentSong = mediumSongs.length - 1;
+            } else {
+
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, mediumSongs[currentSong - 1]);
+                currentSong--;
+                mp.start();
+            }
+        } else if (tempo == 3) {
+            if (currentSong == 0) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, fastSongs[0]);
+                mp.start();
+                currentSong = fastSongs.length - 1;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, fastSongs[currentSong - 1]);
+                currentSong--;
+                mp.start();
+            }
+        }
+    }
     /**Körs varje gång ett steg registreras. I intervaller bestäms tempot, mellan det räknas stegen.*/
     @Override
     public void onSensorChanged(SensorEvent event) { //Körs varje gång hårdvaran registrerar ett steg
@@ -128,6 +230,7 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
     public void playSong() {
         //int x = (int) (Math.random() * 2);
         int x = 0;
+        currentSong = x;
         mp.stop();
         mp.release();
         if (tempo == 1) {
