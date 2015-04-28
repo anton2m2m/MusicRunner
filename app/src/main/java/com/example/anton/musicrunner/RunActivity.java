@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.content.Context;
 import android.app.AlertDialog;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.content.DialogInterface;
@@ -13,6 +15,8 @@ import android.hardware.*;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 /**
  * Created by Anton on 2015-03-23.
@@ -48,6 +52,8 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
+
+
     }
 
     /**Ger användaren valet om den vill avsluta löprundan. Detta för att undvika att aktiviteten stängs ner av misstag */
@@ -173,4 +179,59 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         super.onPause();
         activityRunning = false;
     }
+
+    public void talk(View v){
+       // TextSpeech ts = new TextSpeech();
+       // ts.start(ts);
+
+       // speakOut();
+
+        TextSpeech ts= new TextSpeech();
+        ts.start();
+
+
+    }
+
+
+    private TextToSpeech tts;
+
+
+    @Override
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+    }
+
+  /*  @Override
+    public void onInit(int status) {
+
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = tts.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+                //om allt funkar så gör vadå? kanske inget.
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+
+    }*/
+
+    private void speakOut() {
+
+        String text="Hello you bastard";
+
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 }
+
+
