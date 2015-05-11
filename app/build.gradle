@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions { //ta bort om strul
+        sourceCompatibility JavaVersion.VERSION_1_7 //ta bort det här om det strular!!
+        targetCompatibility JavaVersion.VERSION_1_7 //Ta bort det här om det strular!!
+    } //ta bort om strul
+
 }
 
 dependencies {

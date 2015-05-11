@@ -24,7 +24,6 @@
         android:layout_marginTop="121dp"
         android:onClick="endRunButton" />
 
-<<<<<<< HEAD
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,5 +56,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp"
         android:onClick="talk" />
->>>>>>> origin/master
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/fillMe"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    >>>>>>> origin/master
 </RelativeLayout>
