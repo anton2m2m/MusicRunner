@@ -22,7 +22,8 @@
         android:layout_below="@+id/chronometer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="121dp"
-        android:onClick="endRunButton" />
+        android:onClick="endRunButton"
+        android:visibility="invisible" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
         android:layout_marginEnd="40dp"
         android:onClick="previousSongButton"
         android:layout_alignTop="@+id/endrunbutton"
-        android:layout_toStartOf="@+id/endrunbutton" />
+        android:layout_toStartOf="@+id/endrunbutton"
+        android:visibility="invisible" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -44,7 +46,8 @@
         android:onClick="nextSongButton"
         android:layout_marginStart="40dp"
         android:layout_alignTop="@+id/endrunbutton"
-        android:layout_toEndOf="@+id/endrunbutton" />
+        android:layout_toEndOf="@+id/endrunbutton"
+        android:visibility="invisible" />
 
 =======
     <Button
@@ -52,17 +55,43 @@
         android:layout_height="wrap_content"
         android:text="Talk"
         android:id="@+id/talkButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
-        android:onClick="talk" />
+        android:onClick="talk"
+        android:layout_alignTop="@+id/endrunbutton"
+        android:layout_toEndOf="@+id/imageButton2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/fillMe"
+        android:text="eg &quot;next&quot;"
+        android:layout_below="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You said:"
+        android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Run for 10 seconds to start playing music! \nTo end your run press talk and say &quot;end&quot;"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/imageButton2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Voice Commands\nNext - Play next song \nBack - Play previous song \nStop - pause music \nStart - Resume music when paused \nTime - Audio stopwatch \nEnd - End your run "
+        android:id="@+id/commandListTV"
+        android:layout_below="@+id/endrunbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:visibility="visible" />
     >>>>>>> origin/master
 </RelativeLayout>
