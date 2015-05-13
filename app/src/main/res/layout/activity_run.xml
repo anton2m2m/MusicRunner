@@ -78,7 +78,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Run for 10 seconds to start playing music! \nTo end your run press talk and say &quot;end&quot;"
+        android:text="Press headset button or talk button to give commands.\n Saying &quot;fast&quot; plays faster music, &quot;slow&quot; plays slower music \n\nTo end your run press button and say &quot;end&quot;"
         android:id="@+id/textView2"
         android:layout_above="@+id/imageButton2"
         android:layout_centerHorizontal="true"
@@ -87,7 +87,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voice Commands\nNext - Play next song \nBack - Play previous song \nStop - pause music \nStart - Resume music when paused \nTime - Audio stopwatch \nEnd - End your run "
+        android:text="Voice Commands\nFast - Faster playlist \nSlow - Slower playlist \nNext - Play next song \nBack - Play previous song \nStop - pause music \nStart - Resume music when paused \nTime - Audio stopwatch \nEnd - End your run "
         android:id="@+id/commandListTV"
         android:layout_below="@+id/endrunbutton"
         android:layout_centerHorizontal="true"

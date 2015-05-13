@@ -36,10 +36,12 @@ import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.OnInitListener;
 
+
+
 /**
  * Created by Anton on 2015-03-23.
  */
-public class RunActivity extends Activity implements SensorEventListener, OnCompletionListener, RemoteControlReceiver.IDateCallback {
+public class RunActivity extends Activity implements /*SensorEventListener, */OnCompletionListener, RemoteControlReceiver.IDateCallback {
 
     boolean firstTime = true;
     private static final long UPDATEMILLIS = 30000;
@@ -49,11 +51,12 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
     boolean activityRunning; //True ifall stegsensorn registrerar steg
     private int steps;
     private long time;
-    private int tempo = 0; //Vilken musiknivå det är
+    private int tempo = 2; //Vilken musiknivå det är
     MediaPlayer mp = new MediaPlayer();
-    int[] slowSongs = new int[]{R.raw.slow1, R.raw.slow2};
-    int[] mediumSongs = new int[]{R.raw.medium1, R.raw.medium2};
-    int[] fastSongs = new int[]{R.raw.fast1, R.raw.fast2};
+    int[] walkSongs = new int[]{R.raw.walk1, R.raw.walk2, R.raw.walk3, R.raw.walk4};
+    int[] slowSongs = new int[]{R.raw.slow1, R.raw.slow2, R.raw.slow3, R.raw.slow4};
+    int[] mediumSongs = new int[]{R.raw.moderate1, R.raw.moderate2,R.raw.moderate3, R.raw.moderate4};
+    int[] fastSongs = new int[]{R.raw.fast1, R.raw.fast2, R.raw.fast3, R.raw.fast4};
     int currentSong = 0;
     Chronometer chronometer;
     long timeWhenStopped = 0; //för att kunna pausa chronometern.
@@ -64,8 +67,6 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
 
     protected static final int REQUEST_OK = 1;
     private TextToSpeech ttobj;
-
-
 
 
     //HEADSET
@@ -112,12 +113,14 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         am=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE); //För att aktivera enhetens sensor
-        time = System.currentTimeMillis();
+     //   sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE); //För att aktivera enhetens sensor
+     //   time = System.currentTimeMillis();
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
+
+        playSong();
 
 
         //headset
@@ -231,6 +234,21 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
 
     public void nextSong() {
         if (tempo == 1) {
+            if (walkSongs.length == currentSong + 1) {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, walkSongs[0]);
+                mp.start();
+                currentSong = 0;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, walkSongs[currentSong + 1]);
+                currentSong++;
+                mp.start();
+            }
+        } else if (tempo == 2) {
             if (slowSongs.length == currentSong + 1) {
                 mp.stop();
                 mp.reset();
@@ -245,7 +263,9 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 currentSong++;
                 mp.start();
             }
-        } else if (tempo == 2) {
+        }
+
+        else if (tempo == 3) {
 
             if (mediumSongs.length == currentSong + 1) {
                 mp.stop();
@@ -261,7 +281,7 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 currentSong++;
                 mp.start();
             }
-        } else if (tempo == 3) {
+        } else if (tempo == 4) {
             if (fastSongs.length == currentSong + 1) {
                 mp.stop();
                 mp.reset();
@@ -288,6 +308,21 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
             if (currentSong == 0) {
                 mp.stop();
                 mp.reset();
+                mp = MediaPlayer.create(this, walkSongs[walkSongs.length - 1]);
+                mp.start();
+                currentSong = walkSongs.length - 1;
+
+            } else {
+                mp.stop();
+                mp.reset();
+                mp = MediaPlayer.create(this, walkSongs[currentSong - 1]);
+                currentSong--;
+                mp.start();
+            }
+        } else if (tempo == 2) {
+            if (currentSong == 0) {
+                mp.stop();
+                mp.reset();
                 mp = MediaPlayer.create(this, slowSongs[slowSongs.length - 1]);
                 mp.start();
                 currentSong = slowSongs.length - 1;
@@ -299,7 +334,8 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 currentSong--;
                 mp.start();
             }
-        } else if (tempo == 2) {
+        }
+        else if (tempo == 3) {
 
             if (currentSong == 0) {
                 mp.stop();
@@ -315,7 +351,7 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 currentSong--;
                 mp.start();
             }
-        } else if (tempo == 3) {
+        } else if (tempo == 4) {
             if (currentSong == 0) {
                 mp.stop();
                 mp.reset();
@@ -336,6 +372,8 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
     /**
      * Körs varje gång ett steg registreras. I intervaller bestäms tempot, mellan det räknas stegen.
      */
+
+    /*
     @Override
     public void onSensorChanged(SensorEvent event) { //Körs varje gång hårdvaran registrerar ett steg
         if (activityRunning) {
@@ -357,11 +395,13 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 }
             }
         }
-    }
+    } */
 
     /**
      * Byter låt när användaren ändrar tempot den springer i, byter endast låt om tempot ändras.
      */
+
+    /*
     public void tempo() { //Byter låt ifall användaren ändrar tempot den springer i. Körs var 30 sek.
         if (steps <= slow && tempo != 1) { //byter endast låt om tempot ändras.
             tempo = 1;
@@ -378,21 +418,27 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         time = System.currentTimeMillis();
     }
 
+    public void setTempo(){
+
+    }*/
 
     /**
      * Starten en låt från en av tre listor med låtar. Vilken lista som används bestäms av vilket tempo användaren springer i.
      */
     public void playSong() {
-        //int x = (int) (Math.random() * 2);
-        int x = 0;
+        int x = (int) (Math.random() * 3);
+        //int x = 0;
         currentSong = x;
         mp.stop();
         mp.release();
+
         if (tempo == 1) {
-            mp = MediaPlayer.create(this, slowSongs[x]);
+            mp = MediaPlayer.create(this, walkSongs[x]);
         } else if (tempo == 2) {
-            mp = MediaPlayer.create(this, mediumSongs[x]);
+            mp = MediaPlayer.create(this, slowSongs[x]);
         } else if (tempo == 3) {
+            mp = MediaPlayer.create(this, mediumSongs[x]);
+        } else if (tempo == 4) {
             mp = MediaPlayer.create(this, fastSongs[x]);
         }
 
@@ -401,11 +447,12 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
         mp.setOnCompletionListener(this);
     }
 
+    /*
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
+*/
     /**
      * Startar en ny låt när en låt tagit slut.
      */
@@ -424,7 +471,7 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
 
 
 
-
+/*
 
         Sensor countSensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_STEP_COUNTER); //Skapar en sensor för att registrera steg
@@ -435,6 +482,8 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
             Toast.makeText(this, "Count sensor not available!",
                     Toast.LENGTH_LONG).show();
         }
+
+        */
 
         mp.pause();
         ttobj.speak("Screen unlocked", TextToSpeech.QUEUE_FLUSH, null);
@@ -562,7 +611,26 @@ public class RunActivity extends Activity implements SensorEventListener, OnComp
                 Thread.currentThread().interrupt();
             }
             endRun();
-        } else { //do nothing, turn of cmd interface
+        }   else if (command.get(0).equals("slow") || command.get(0).equals("slower")) {
+            //  hideButton();
+            if (tempo == 1) {
+                ttobj.speak("No slower playlist available", TextToSpeech.QUEUE_ADD, null);
+            }else {
+                tempo--;
+                playSong();
+            }
+        } else if (command.get(0).equals("fast") || command.get(0).equals("faster")) {
+            //  hideButton();
+            if (tempo == 4) {
+                ttobj.speak("No faster playlist available", TextToSpeech.QUEUE_ADD, null);
+            }else {
+                tempo++;
+                playSong();
+            }
+        }
+
+
+        else { //do nothing, turn of cmd interface
             ttobj.speak("Command not recognized", TextToSpeech.QUEUE_FLUSH, null);
 
         }
